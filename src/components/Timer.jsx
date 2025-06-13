@@ -31,20 +31,13 @@ const Timer = ({ timeLimit, onTimeUp }) => {
           });
         }
       }, 1000);
-  
     }
 
     return () => {
       isMounted = false;
       clearInterval(currentTimerId);
     };
-  }, [timeLimit]);
-
-  useEffect(() => {
-    if (isTimeUp) {
-      onTimeUp();
-    }
-  }, [isTimeUp, onTimeUp]);
+  }, [timeLimit, isTimeUp]);
 
   useEffect(() => {
     if (isTimeUp) {
