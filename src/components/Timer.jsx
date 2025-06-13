@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   CircularProgress,
   Typography,
@@ -6,12 +6,22 @@ import {
 } from '@mui/material';
 
 const Timer = ({ timeLimit, onTimeUp }) => {
+  const [secondsLeft, setSecondsLeft] = useState(timeLimit);
+
   useEffect(() => {
     if (timeLimit > 0) {
-      const timer = setTimeout(() => {
-        onTimeUp();
-      }, timeLimit * 1000);
-      return () => clearTimeout(timer);
+      const timer = setInterval(() => {
+        setSecondsLeft(prev => {
+          const newTime = prev - 1;
+          if (newTime <= 0) {
+            clearInterval(timer);
+            onTimeUp();
+            return 0;
+          }
+          return newTime;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
     }
   }, [timeLimit, onTimeUp]);
 
@@ -19,12 +29,12 @@ const Timer = ({ timeLimit, onTimeUp }) => {
     <Box display="flex" alignItems="center" sx={{ mb: 2 }}>
       <CircularProgress
         variant="determinate"
-        value={(timeLimit / 30) * 100}
+        value={(secondsLeft / timeLimit) * 100}
         size={40}
         thickness={4}
         sx={{ mr: 2 }}
       />
-      <Typography>{timeLimit}s</Typography>
+      <Typography>{secondsLeft}s</Typography>
     </Box>
   );
 };

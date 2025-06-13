@@ -42,6 +42,9 @@ const Quiz = () => {
     if (isCorrect) {
       setScore((prevScore) => prevScore + 1);
     }
+  };
+
+  const handleNextQuestion = () => {
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
   };
 
@@ -53,57 +56,55 @@ const Quiz = () => {
 
   if (showResults) {
     return (
-      <Box
-        sx={{
-          mt: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Typography variant="h4" component="div" gutterBottom>
-          Quiz Complete!
-        </Typography>
-        <Typography variant="h5" component="div" gutterBottom>
-          Your Score: {score}/{questions.length}
-        </Typography>
-        <Paper sx={{ p: 2, mt: 2 }}>
-          <Typography variant="h6" gutterBottom>
-            Score Breakdown:
-          </Typography>
-          <Grid container spacing={1}>
-            <Grid item>
-              <Chip
-                label={`Easy: ${scoreEasy()}/${countQuestions('easy')}`}
-                color={scoreEasy() === countQuestions('easy') ? 'success' : 'default'}
-              />
-            </Grid>
-            <Grid item>
-              <Chip
-                label={`Medium: ${scoreMedium()}/${countQuestions('medium')}`}
-                color={scoreMedium() === countQuestions('medium') ? 'success' : 'default'}
-              />
-            </Grid>
-            <Grid item>
-              <Chip
-                label={`Hard: ${scoreHard()}/${countQuestions('hard')}`}
-                color={scoreHard() === countQuestions('hard') ? 'success' : 'default'}
-              />
-            </Grid>
-          </Grid>
-        </Paper>
-        <Button
-          variant="contained"
-          onClick={() => {
-            setCurrentQuestionIndex(0);
-            setScore(0);
-            setShowResults(false);
-          }}
-          sx={{ mt: 2 }}
-        >
-          Play Again
-        </Button>
-      </Box>
+      <Container maxWidth="md" sx={{ mt: 4 }}>
+        <Card>
+          <CardContent>
+            <Typography variant="h4" component="div" gutterBottom align="center">
+              Quiz Complete!
+            </Typography>
+            <Typography variant="h5" component="div" gutterBottom align="center">
+              Your Score: {score}/{questions.length}
+            </Typography>
+            <Paper sx={{ p: 2, mt: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                Score Breakdown:
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item>
+                  <Chip
+                    label={`Easy: ${scoreEasy()}/${countQuestions('easy')}`}
+                    color={scoreEasy() === countQuestions('easy') ? 'success' : 'default'}
+                  />
+                </Grid>
+                <Grid item>
+                  <Chip
+                    label={`Medium: ${scoreMedium()}/${countQuestions('medium')}`}
+                    color={scoreMedium() === countQuestions('medium') ? 'success' : 'default'}
+                  />
+                </Grid>
+                <Grid item>
+                  <Chip
+                    label={`Hard: ${scoreHard()}/${countQuestions('hard')}`}
+                    color={scoreHard() === countQuestions('hard') ? 'success' : 'default'}
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={() => {
+                setCurrentQuestionIndex(0);
+                setScore(0);
+                setShowResults(false);
+              }}
+              sx={{ mt: 2 }}
+            >
+              Play Again
+            </Button>
+          </CardContent>
+        </Card>
+      </Container>
     );
   }
 
@@ -131,6 +132,7 @@ const Quiz = () => {
           question={currentQuestion}
           onAnswer={handleAnswer}
           timeLimit={timeLimit}
+          onNextQuestion={handleNextQuestion}
         />
       </Box>
     </Container>
