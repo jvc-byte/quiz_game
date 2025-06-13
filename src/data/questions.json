@@ -10,7 +10,8 @@
         "Rome"
       ],
       "correctAnswer": "Paris",
-      "category": "Geography"
+      "category": "Geography",
+      "difficulty": "easy"
     },
     {
       "id": 2,
@@ -22,7 +23,8 @@
         "Saturn"
       ],
       "correctAnswer": "Mars",
-      "category": "Science"
+      "category": "Science",
+      "difficulty": "easy"
     },
     {
       "id": 3,
@@ -34,7 +36,34 @@
         "William Faulkner"
       ],
       "correctAnswer": "Harper Lee",
-      "category": "Literature"
+      "category": "Literature",
+      "difficulty": "medium"
+    },
+    {
+      "id": 4,
+      "question": "What is the largest desert in the world?",
+      "options": [
+        "Antarctic Desert",
+        "Arabian Desert",
+        "Sahara Desert",
+        "Gobi Desert"
+      ],
+      "correctAnswer": "Sahara Desert",
+      "category": "Geography",
+      "difficulty": "medium"
+    },
+    {
+      "id": 5,
+      "question": "What is the chemical symbol for gold?",
+      "options": [
+        "Ag",
+        "Au",
+        "Fe",
+        "Cu"
+      ],
+      "correctAnswer": "Au",
+      "category": "Science",
+      "difficulty": "hard"
     }
   ]
 }

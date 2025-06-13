@@ -5,26 +5,26 @@ import {
   Box,
 } from '@mui/material';
 
-const Timer = ({ timeLeft, onTimeUp }) => {
+const Timer = ({ timeLimit, onTimeUp }) => {
   useEffect(() => {
-    if (timeLeft > 0) {
+    if (timeLimit > 0) {
       const timer = setTimeout(() => {
         onTimeUp();
-      }, timeLeft * 1000);
+      }, timeLimit * 1000);
       return () => clearTimeout(timer);
     }
-  }, [timeLeft, onTimeUp]);
+  }, [timeLimit, onTimeUp]);
 
   return (
     <Box display="flex" alignItems="center" sx={{ mb: 2 }}>
       <CircularProgress
         variant="determinate"
-        value={(timeLeft / 30) * 100}
+        value={(timeLimit / 30) * 100}
         size={40}
         thickness={4}
         sx={{ mr: 2 }}
       />
-      <Typography>{timeLeft}s</Typography>
+      <Typography>{timeLimit}s</Typography>
     </Box>
   );
 };

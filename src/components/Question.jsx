@@ -10,17 +10,18 @@ import {
 } from '@mui/material';
 import Timer from './Timer';
 
-const Question = ({ question, onAnswer }) => {
+const Question = ({ question, onAnswer, timeLimit = 30 }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [showResult, setShowResult] = useState(false);
-  const timeLeft = 30; // Fixed time limit
+  const [isAnswered, setIsAnswered] = useState(false);
 
   const handleAnswer = (option) => {
-    setSelectedOption(option);
-    setShowResult(true);
-    setTimeout(() => {
+    if (!isAnswered) {
+      setSelectedOption(option);
+      setShowResult(true);
+      setIsAnswered(true);
       onAnswer(option === question.correctAnswer);
-    }, 1000);
+    }
   };
 
   return (
@@ -29,7 +30,7 @@ const Question = ({ question, onAnswer }) => {
         <Typography variant="h5" component="div" gutterBottom>
           {question.question}
         </Typography>
-        <Timer timeLeft={timeLeft} onTimeUp={() => onAnswer(false)} />
+        <Timer timeLimit={timeLimit} onTimeUp={() => onAnswer(false)} />
         {showResult ? (
           selectedOption === question.correctAnswer ? (
             <Alert severity="success">Correct!</Alert>
