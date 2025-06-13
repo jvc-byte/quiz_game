@@ -7,14 +7,19 @@ import {
 
 const Timer = ({ timeLimit, onTimeUp }) => {
   const [secondsLeft, setSecondsLeft] = useState(timeLimit);
-  const [timerId, setTimerId] = useState(null);
   const [isTimeUp, setIsTimeUp] = useState(false);
 
   useEffect(() => {
+    // Reset secondsLeft when timeLimit changes
+    setSecondsLeft(timeLimit);
+  }, [timeLimit]);
+
+  useEffect(() => {
     let isMounted = true;
+    let currentTimerId = null;
 
     if (timeLimit > 0) {
-      const newTimer = setInterval(() => {
+      currentTimerId = setInterval(() => {
         if (isMounted && !isTimeUp) {
           setSecondsLeft(prev => {
             const newTime = prev - 1;
@@ -26,16 +31,20 @@ const Timer = ({ timeLimit, onTimeUp }) => {
           });
         }
       }, 1000);
-      setTimerId(newTimer);
+  
     }
 
     return () => {
       isMounted = false;
-      if (timerId) {
-        clearInterval(timerId);
-      }
+      clearInterval(currentTimerId);
     };
-  }, [isTimeUp, timeLimit, timerId]);
+  }, [timeLimit]);
+
+  useEffect(() => {
+    if (isTimeUp) {
+      onTimeUp();
+    }
+  }, [isTimeUp, onTimeUp]);
 
   useEffect(() => {
     if (isTimeUp) {
