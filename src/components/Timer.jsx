@@ -35,7 +35,7 @@ const Timer = ({ timeLimit, onTimeUp }) => {
         clearInterval(timerId);
       }
     };
-  }, [timeLimit]);
+  }, [isTimeUp, timeLimit, timerId]);
 
   useEffect(() => {
     if (isTimeUp) {

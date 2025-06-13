@@ -73,49 +73,78 @@ const Quiz = () => {
 
   if (showResults) {
     return (
-      <Container maxWidth="md" sx={{ 
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        px: 2
-      }}>
-        <Box sx={{ 
-          width: '100%',
-          maxWidth: 600,
-          mt: 4,
-          textAlign: 'center'
-        }}>
+      <Container
+        maxWidth="md"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+          px: 2,
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: 600,
+            mt: 4,
+            textAlign: "center",
+          }}
+        >
           <Card>
             <CardContent>
-              <Typography variant="h4" component="div" gutterBottom align="center">
+              <Typography
+                variant="h4"
+                component="div"
+                gutterBottom
+                align="center"
+              >
                 Quiz Complete!
               </Typography>
-              <Typography variant="h5" component="div" gutterBottom align="center">
+              <Typography
+                variant="h5"
+                component="div"
+                gutterBottom
+                align="center"
+              >
                 Your Score: {score}/{questions.length}
               </Typography>
               <Paper sx={{ p: 2, mt: 2 }}>
                 <Typography variant="h6" gutterBottom>
                   Score Breakdown:
                 </Typography>
-                <Grid container spacing={2}>
-                  <Grid>
+                <Grid container sx={{ p: 1 }}>
+                  <Grid sx={{ mr: 1}}>
                     <Chip
-                      label={`Easy: ${scoreEasy()}/${countQuestions('easy')}`}
-                      color={scoreEasy() === countQuestions('easy') ? 'success' : 'default'}
+                      label={`Easy: ${scoreEasy()}/${countQuestions("easy")}`}
+                      color={
+                        scoreEasy() === countQuestions("easy")
+                          ? "success"
+                          : "default"
+                      }
+                    />
+                  </Grid>
+                  <Grid sx={{ mr: 1}}>
+                    <Chip
+                      label={`Medium: ${scoreMedium()}/${countQuestions(
+                        "medium"
+                      )}`}
+                      color={
+                        scoreMedium() === countQuestions("medium")
+                          ? "success"
+                          : "default"
+                      }
                     />
                   </Grid>
                   <Grid>
                     <Chip
-                      label={`Medium: ${scoreMedium()}/${countQuestions('medium')}`}
-                      color={scoreMedium() === countQuestions('medium') ? 'success' : 'default'}
-                    />
-                  </Grid>
-                  <Grid>
-                    <Chip
-                      label={`Hard: ${scoreHard()}/${countQuestions('hard')}`}
-                      color={scoreHard() === countQuestions('hard') ? 'success' : 'default'}
+                      label={`Hard: ${scoreHard()}/${countQuestions("hard")}`}
+                      color={
+                        scoreHard() === countQuestions("hard")
+                          ? "success"
+                          : "default"
+                      }
                     />
                   </Grid>
                 </Grid>
@@ -134,7 +163,12 @@ const Quiz = () => {
               </Button>
             </CardContent>
           </Card>
-          <Leaderboard scores={{ total: score, difficulty: currentQuestion.difficulty }} />
+          <Leaderboard
+            scores={{
+              total: score,
+              difficulty: currentQuestion?.difficulty || "easy",
+            }}
+          />
         </Box>
       </Container>
     );
