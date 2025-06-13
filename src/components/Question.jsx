@@ -63,14 +63,14 @@ const Question = ({ question, onAnswer, timeLimit = 30, onNextQuestion }) => {
   }
 
   return (
-    <Card>
-      <CardContent>
+    <Card sx={{ width: '100%', maxWidth: 600, mx: 'auto' }}>
+      <CardContent sx={{ textAlign: 'center' }}>
         <Typography variant="h5" component="div" gutterBottom>
           {question.question}
         </Typography>
         <Timer timeLimit={timeLimit} onTimeUp={handleTimeout} />
         {showResult ? (
-          <Box sx={{ mt: 2 }}>
+          <Box sx={{ mt: 2, maxWidth: 600, mx: 'auto' }}>
             {selectedOption === question.correctAnswer ? (
               <Alert severity="success">Correct!</Alert>
             ) : (
@@ -87,21 +87,23 @@ const Question = ({ question, onAnswer, timeLimit = 30, onNextQuestion }) => {
             </Button>
           </Box>
         ) : (
-          question.options.map((option, index) => (
-            <Button
-              key={index}
-              variant="outlined"
-              fullWidth
-              onClick={() => handleAnswer(option)}
-              sx={{
-                mb: 2,
-                bgcolor: selectedOption === option ? 'primary.main' : 'initial',
-                color: selectedOption === option ? 'white' : 'initial',
-              }}
-            >
-              {option}
-            </Button>
-          ))
+          <Box sx={{ maxWidth: 600, mx: 'auto' }}>
+            {question.options.map((option, index) => (
+              <Button
+                key={index}
+                variant="outlined"
+                fullWidth
+                onClick={() => handleAnswer(option)}
+                sx={{
+                  mb: 2,
+                  bgcolor: selectedOption === option ? 'primary.main' : 'initial',
+                  color: selectedOption === option ? 'white' : 'initial',
+                }}
+              >
+                {option}
+              </Button>
+            ))}
+          </Box>
         )}
       </CardContent>
     </Card>

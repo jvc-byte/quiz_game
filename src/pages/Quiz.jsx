@@ -11,6 +11,7 @@ import {
   Card,
   CardContent,
 } from '@mui/material';
+import Leaderboard from '../components/Leaderboard';
 import Question from '../components/Question';
 import questionsData from '../data/questions.json';
 
@@ -72,66 +73,93 @@ const Quiz = () => {
 
   if (showResults) {
     return (
-      <Container maxWidth="md" sx={{ mt: 4 }}>
-        <Card>
-          <CardContent>
-            <Typography variant="h4" component="div" gutterBottom align="center">
-              Quiz Complete!
-            </Typography>
-            <Typography variant="h5" component="div" gutterBottom align="center">
-              Your Score: {score}/{questions.length}
-            </Typography>
-            <Paper sx={{ p: 2, mt: 2 }}>
-              <Typography variant="h6" gutterBottom>
-                Score Breakdown:
+      <Container maxWidth="md" sx={{ 
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        px: 2
+      }}>
+        <Box sx={{ 
+          width: '100%',
+          maxWidth: 600,
+          mt: 4,
+          textAlign: 'center'
+        }}>
+          <Card>
+            <CardContent>
+              <Typography variant="h4" component="div" gutterBottom align="center">
+                Quiz Complete!
               </Typography>
-              <Grid container spacing={2}>
-                <Grid item>
-                  <Chip
-                    label={`Easy: ${scoreEasy()}/${countQuestions('easy')}`}
-                    color={scoreEasy() === countQuestions('easy') ? 'success' : 'default'}
-                  />
+              <Typography variant="h5" component="div" gutterBottom align="center">
+                Your Score: {score}/{questions.length}
+              </Typography>
+              <Paper sx={{ p: 2, mt: 2 }}>
+                <Typography variant="h6" gutterBottom>
+                  Score Breakdown:
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid>
+                    <Chip
+                      label={`Easy: ${scoreEasy()}/${countQuestions('easy')}`}
+                      color={scoreEasy() === countQuestions('easy') ? 'success' : 'default'}
+                    />
+                  </Grid>
+                  <Grid>
+                    <Chip
+                      label={`Medium: ${scoreMedium()}/${countQuestions('medium')}`}
+                      color={scoreMedium() === countQuestions('medium') ? 'success' : 'default'}
+                    />
+                  </Grid>
+                  <Grid>
+                    <Chip
+                      label={`Hard: ${scoreHard()}/${countQuestions('hard')}`}
+                      color={scoreHard() === countQuestions('hard') ? 'success' : 'default'}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Chip
-                    label={`Medium: ${scoreMedium()}/${countQuestions('medium')}`}
-                    color={scoreMedium() === countQuestions('medium') ? 'success' : 'default'}
-                  />
-                </Grid>
-                <Grid item>
-                  <Chip
-                    label={`Hard: ${scoreHard()}/${countQuestions('hard')}`}
-                    color={scoreHard() === countQuestions('hard') ? 'success' : 'default'}
-                  />
-                </Grid>
-              </Grid>
-            </Paper>
-            <Button
-              variant="contained"
-              fullWidth
-              onClick={() => {
-                setCurrentQuestionIndex(0);
-                setScore(0);
-                setShowResults(false);
-              }}
-              sx={{ mt: 2 }}
-            >
-              Play Again
-            </Button>
-          </CardContent>
-        </Card>
+              </Paper>
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={() => {
+                  setCurrentQuestionIndex(0);
+                  setScore(0);
+                  setShowResults(false);
+                }}
+                sx={{ mt: 2 }}
+              >
+                Play Again
+              </Button>
+            </CardContent>
+          </Card>
+          <Leaderboard scores={{ total: score, difficulty: currentQuestion.difficulty }} />
+        </Box>
       </Container>
     );
   }
 
   return (
-    <Container maxWidth="md">
-      <Box sx={{ mt: 4 }}>
+    <Container maxWidth="md" sx={{ 
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '100vh',
+      px: 2
+    }}>
+      <Box sx={{ 
+        width: '100%',
+        maxWidth: 600,
+        mt: 4,
+        textAlign: 'center'
+      }}>
         <Typography variant="h5" component="div" gutterBottom>
           Question {currentQuestionIndex + 1}/{questions.length}
         </Typography>
         {currentQuestion && (
-          <Typography variant="body2" color="text.secondary" gutterBottom>
+          <Typography variant="body2" color="text.secondary" gutterBottom sx={{ textAlign: 'center' }}>
             Category: {currentQuestion.category} • Difficulty: {currentQuestion.difficulty}
           </Typography>
         )}
