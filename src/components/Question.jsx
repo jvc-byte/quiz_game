@@ -26,11 +26,17 @@ const Question = ({ question, onAnswer, timeLimit = 30, onNextQuestion }) => {
 
   // Reset timer when timeLimit changes
   useEffect(() => {
-    if (timeLimit > 0) {
-      setTimeExpired(false);
-      setShowResult(false);
-    }
+    setTimeExpired(false);
+    setShowResult(false);
   }, [timeLimit]);
+
+  // Reset all states when question changes
+  useEffect(() => {
+    setSelectedOption(null);
+    setShowResult(false);
+    setIsAnswered(false);
+    setTimeExpired(false);
+  }, [question]);
 
   const handleAnswer = (option) => {
     if (!isAnswered && !timeExpired) {
@@ -51,6 +57,10 @@ const Question = ({ question, onAnswer, timeLimit = 30, onNextQuestion }) => {
       onNextQuestion();
     }
   };
+
+  if (!question) {
+    return null;
+  }
 
   return (
     <Card>

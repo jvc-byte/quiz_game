@@ -8,6 +8,8 @@ import {
   Paper,
   Grid,
   Chip,
+  Card,
+  CardContent,
 } from '@mui/material';
 import Question from '../components/Question';
 import questionsData from '../data/questions.json';
@@ -26,6 +28,8 @@ const Quiz = () => {
   }, [currentQuestionIndex, questions, currentQuestion]);
 
   const getTimeLimit = (question) => {
+    if (!question) return 30; // Default to 30s if no question
+    
     switch (question.difficulty) {
       case 'easy':
         return 30;
@@ -37,6 +41,11 @@ const Quiz = () => {
         return 30;
     }
   };
+
+  useEffect(() => {
+    // Reset time limit when question changes
+    setTimeLimit(getTimeLimit(currentQuestion));
+  }, [currentQuestion]);
 
   const handleAnswer = (isCorrect) => {
     if (isCorrect) {
@@ -53,6 +62,13 @@ const Quiz = () => {
       setShowResults(true);
     }
   }, [currentQuestionIndex, questions.length]);
+
+  // Score calculation functions
+  const scoreEasy = () => questions.slice(0, currentQuestionIndex).filter(q => q.difficulty === 'easy' && q.correctAnswer === q.selectedOption).length;
+  const scoreMedium = () => questions.slice(0, currentQuestionIndex).filter(q => q.difficulty === 'medium' && q.correctAnswer === q.selectedOption).length;
+  const scoreHard = () => questions.slice(0, currentQuestionIndex).filter(q => q.difficulty === 'hard' && q.correctAnswer === q.selectedOption).length;
+
+  const countQuestions = (difficulty) => questions.filter(q => q.difficulty === difficulty).length;
 
   if (showResults) {
     return (
@@ -108,21 +124,17 @@ const Quiz = () => {
     );
   }
 
-  const scoreEasy = () => questions.slice(0, currentQuestionIndex).filter(q => q.difficulty === 'easy' && q.correctAnswer === currentQuestion.correctAnswer).length;
-  const scoreMedium = () => questions.slice(0, currentQuestionIndex).filter(q => q.difficulty === 'medium' && q.correctAnswer === currentQuestion.correctAnswer).length;
-  const scoreHard = () => questions.slice(0, currentQuestionIndex).filter(q => q.difficulty === 'hard' && q.correctAnswer === currentQuestion.correctAnswer).length;
-
-  const countQuestions = (difficulty) => questions.filter(q => q.difficulty === difficulty).length;
-
   return (
     <Container maxWidth="md">
       <Box sx={{ mt: 4 }}>
         <Typography variant="h5" component="div" gutterBottom>
           Question {currentQuestionIndex + 1}/{questions.length}
         </Typography>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          Category: {currentQuestion.category} • Difficulty: {currentQuestion.difficulty}
-        </Typography>
+        {currentQuestion && (
+          <Typography variant="body2" color="text.secondary" gutterBottom>
+            Category: {currentQuestion.category} • Difficulty: {currentQuestion.difficulty}
+          </Typography>
+        )}
         <LinearProgress
           variant="determinate"
           value={(currentQuestionIndex / questions.length) * 100}

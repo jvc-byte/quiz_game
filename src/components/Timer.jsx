@@ -14,7 +14,6 @@ const Timer = ({ timeLimit, onTimeUp }) => {
         setSecondsLeft(prev => {
           const newTime = prev - 1;
           if (newTime <= 0) {
-            clearInterval(timer);
             onTimeUp();
             return 0;
           }
@@ -24,6 +23,23 @@ const Timer = ({ timeLimit, onTimeUp }) => {
       return () => clearInterval(timer);
     }
   }, [timeLimit, onTimeUp]);
+
+  // Clear interval when component unmounts
+  useEffect(() => {
+    return () => {
+      const timer = setInterval(() => {
+        setSecondsLeft(prev => {
+          const newTime = prev - 1;
+          if (newTime <= 0) {
+            onTimeUp();
+            return 0;
+          }
+          return newTime;
+        });
+      }, 1000);
+      clearInterval(timer);
+    };
+  }, [onTimeUp]);
 
   return (
     <Box display="flex" alignItems="center" sx={{ mb: 2 }}>
